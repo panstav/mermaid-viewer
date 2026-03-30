@@ -4,16 +4,15 @@
 <head>
     <meta charset="utf-8" />
     <title>@newmo-oss/mermaid-viewer</title>
-    <meta
-        name="description"
-        content="User Friendly Mermaid Diagram Viewer">
+    <meta name="description" content="User Friendly Mermaid Diagram Viewer">
     <link rel="canonical" href="https://newmo-oss.github.io/mermaid-viewer/" />
     <!--    emoji favicon-->
     <link rel="icon"
-          href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ctext x='0' y='20' font-size='20' fill='%23f1f1f1'%3E🧜‍️%3C/text%3E%3C/svg%3E"
-          type="image/svg+xml">
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ctext x='0' y='20' font-size='20' fill='%23f1f1f1'%3E🧜‍️%3C/text%3E%3C/svg%3E"
+        type="image/svg+xml">
     <style>
-        html, body {
+        html,
+        body {
             margin: 0;
             padding: 0;
             height: 100%;
@@ -48,207 +47,210 @@
         }
     </style>
 </head>
+
 <body>
-<x-mermaid-controller target="graphDiv" graphId="mySvgId">
-    <template shadowrootmode="open">
-        <div>
-            <style>
-                :host {
-                    --newmo-green-700: #00811C;
-                    --newmo-green-500: #00A82D;
-                    --newmo-green-300: #4ECB69;
-                    --newmo-green-100: #E2F9E7;
-                }
+    <x-mermaid-controller target="graphDiv" graphId="mySvgId">
+        <template shadowrootmode="open">
+            <div>
+                <style>
+                    :host {
+                        --newmo-green-700: #00811C;
+                        --newmo-green-500: #00A82D;
+                        --newmo-green-300: #4ECB69;
+                        --newmo-green-100: #E2F9E7;
+                    }
 
-                dialog {
-                    width: 100%;
-                    height: 100%;
-                    display: flex;
-                    flex-direction: column;
-                    gap: 1rem;
-                    padding: 1rem;
-                    background-color: white;
-                    border-radius: 1rem;
-                    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
-                    z-index: 1000;
-                }
+                    dialog {
+                        width: 100%;
+                        height: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 1rem;
+                        padding: 1rem;
+                        background-color: white;
+                        border-radius: 1rem;
+                        box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
+                        z-index: 1000;
+                    }
 
-                .prevButton, .nextButton {
-                    padding: 0.5rem 1rem;
-                    font-size: 1rem;
-                    border: none;
-                    background-color: #007bff;
-                    color: white;
-                    border-radius: 0.5rem;
-                    cursor: pointer;
-                    --clickable-space-around-button: -10px;
-                    position: relative;
+                    .prevButton,
+                    .nextButton {
+                        padding: 0.5rem 1rem;
+                        font-size: 1rem;
+                        border: none;
+                        background-color: #007bff;
+                        color: white;
+                        border-radius: 0.5rem;
+                        cursor: pointer;
+                        --clickable-space-around-button: -10px;
+                        position: relative;
 
-                }
+                    }
 
-                .prevButton::after, .nextButton::after {
-                    content: "";
-                    position: absolute;
-                    top: var(--clickable-space-around-button);
-                    right: var(--clickable-space-around-button);
-                    bottom: var(--clickable-space-around-button);
-                    left: var(--clickable-space-around-button);
-                    background-color: transparent;
-                    z-index: -1;
-                }
+                    .prevButton::after,
+                    .nextButton::after {
+                        content: "";
+                        position: absolute;
+                        top: var(--clickable-space-around-button);
+                        right: var(--clickable-space-around-button);
+                        bottom: var(--clickable-space-around-button);
+                        left: var(--clickable-space-around-button);
+                        background-color: transparent;
+                        z-index: -1;
+                    }
 
-                .prevButton:hover, .nextButton:hover {
-                    background-color: #0056b3;
-                }
+                    .prevButton:hover,
+                    .nextButton:hover {
+                        background-color: #0056b3;
+                    }
 
-                .renderButton {
-                    font-size: 1.5rem;
-                    width: 100%;
-                    padding: 1rem;
-                    border: none;
-                    background-color: var(--newmo-green-700);
-                    color: white;
-                    border-radius: 0.5rem;
-                    cursor: pointer;
+                    .renderButton {
+                        font-size: 1.5rem;
+                        width: 100%;
+                        padding: 1rem;
+                        border: none;
+                        background-color: var(--newmo-green-700);
+                        color: white;
+                        border-radius: 0.5rem;
+                        cursor: pointer;
 
-                }
+                    }
 
-                .renderButton:hover {
-                    background-color: var(--newmo-green-500);
-                }
+                    .renderButton:hover {
+                        background-color: var(--newmo-green-500);
+                    }
 
-                #inputDialog {
-                    display: none;
-                }
+                    #inputDialog {
+                        display: none;
+                    }
 
-                #inputDialog[open] {
-                    display: block;
-                }
+                    #inputDialog[open] {
+                        display: block;
+                    }
 
-                .sequenceController {
-                    grid-column: label 3;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: end;
-                    margin: 0.5rem 0;
-                    position: relative;
-                }
+                    .sequenceController {
+                        grid-column: label 3;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: end;
+                        margin: 0.5rem 0;
+                        position: relative;
+                    }
 
-                .sequenceNumberBox {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                }
+                    .sequenceNumberBox {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                    }
 
-                .sequenceNumberLabel {
-                    font-size: 1.5rem;
-                    display: block;
-                }
+                    .sequenceNumberLabel {
+                        font-size: 1.5rem;
+                        display: block;
+                    }
 
-                .sequenceStepper {
-                    margin-left: 0.8rem;
-                    margin-right: 0.8rem;
-                }
+                    .sequenceStepper {
+                        margin-left: 0.8rem;
+                        margin-right: 0.8rem;
+                    }
 
-                /* show min attr of stepper into left bottom of input */
-                .sequenceStepper::before {
-                    content: attr(min);
-                    position: relative;
-                    left: 0;
-                    bottom: 0;
-                    margin-left: -0.5rem;
-                }
+                    /* show min attr of stepper into left bottom of input */
+                    .sequenceStepper::before {
+                        content: attr(min);
+                        position: relative;
+                        left: 0;
+                        bottom: 0;
+                        margin-left: -0.5rem;
+                    }
 
-                .sequenceStepper::after {
-                    content: attr(max);
-                    position: relative;
-                    right: 0;
-                    top: 0;
-                    margin-right: -0.5rem;
-                }
+                    .sequenceStepper::after {
+                        content: attr(max);
+                        position: relative;
+                        right: 0;
+                        top: 0;
+                        margin-right: -0.5rem;
+                    }
 
-                .sequenceStepper {
-                    display: block;
-                }
+                    .sequenceStepper {
+                        display: block;
+                    }
 
-                /*  top-right config area*/
-                .editDialogBox {
-                    position: absolute;
-                    top: 0;
-                    right: 0;
-                }
+                    /*  top-right config area*/
+                    .editDialogBox {
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                    }
 
-                .openDialog {
-                    padding: 0.5rem 1rem;
-                    font-size: 1rem;
-                    border: none;
-                    color: white;
-                    border-radius: 0.5rem;
-                    cursor: pointer;
-                }
+                    .openDialog {
+                        padding: 0.5rem 1rem;
+                        font-size: 1rem;
+                        border: none;
+                        color: white;
+                        border-radius: 0.5rem;
+                        cursor: pointer;
+                    }
 
-                .openDialog:hover {
-                    box-shadow: 0 0 0 0.2rem var(--newmo-green-300);
-                }
+                    .openDialog:hover {
+                        box-shadow: 0 0 0 0.2rem var(--newmo-green-300);
+                    }
 
-                .footer {
-                    margin-top: 1rem;
-                    font-size: 1rem;
-                    color: #666;
-                    bottom: 0;
-                    left: 0;
-                    width: 100%;
-                    display: block;
-                    padding: 0.5rem 1rem;
-                }
+                    .footer {
+                        margin-top: 1rem;
+                        font-size: 1rem;
+                        color: #666;
+                        bottom: 0;
+                        left: 0;
+                        width: 100%;
+                        display: block;
+                        padding: 0.5rem 1rem;
+                    }
 
-                .footerText {
-                    text-align: right;
-                    padding-inline: 1rem;
-                }
-            </style>
-            <dialog id="inputDialog">
-                <div style="width: 100%; height: 100%;">
-                    <label for="inputDialogInput">Marmaid Diagram</label><textarea id="inputDialogInput"
-                                                                                   style="display: block;width: 100%; height: 35em; max-height: 50%;"></textarea>
-                    <div
-                        style="display: flex;flex-direction: column; align-items: center; align-content: center; padding-block: 0.5rem;">
-                        <button id="inputDialogClose" class="renderButton" style="display: block;">Render</button>
+                    .footerText {
+                        text-align: right;
+                        padding-inline: 1rem;
+                    }
+                </style>
+                <dialog id="inputDialog">
+                    <div style="width: 100%; height: 100%;">
+                        <label for="inputDialogInput">Marmaid Diagram</label><textarea id="inputDialogInput"
+                            style="display: block;width: 100%; height: 35em; max-height: 50%;"></textarea>
+                        <div
+                            style="display: flex;flex-direction: column; align-items: center; align-content: center; padding-block: 0.5rem;">
+                            <button id="inputDialogClose" class="renderButton" style="display: block;">Render</button>
+                        </div>
+                        <h2>Usage</h2>
+                        <ol>
+                            <li>📝 Write Mermaid Diagram in the textarea</li>
+                            <li>🔍 Click "Render" Button</li>
+                            <li>🔗 Copy URL and Share it!</li>
+                        </ol>
+                        <footer class="footer">
+                            <p class="footerText">
+                                Source Code is available on <a
+                                    href="https://github.com/newmo-oss/mermaid-viewer">GitHub</a>
+                            </p>
+                            <p class="footerText">
+                                Created by <a href="https://newmo.me/">newmo, Inc.</a>
+                            </p>
+                        </footer>
                     </div>
-                    <h2>Usage</h2>
-                    <ol>
-                        <li>📝 Write Mermaid Diagram in the textarea</li>
-                        <li>🔍 Click "Render" Button</li>
-                        <li>🔗 Copy URL and Share it!</li>
-                    </ol>
-                    <footer class="footer">
-                        <p class="footerText">
-                            Source Code is available on <a href="https://github.com/newmo-oss/mermaid-viewer">GitHub</a>
-                        </p>
-                        <p class="footerText">
-                            Created by <a href="https://newmo.me/">newmo, Inc.</a>
-                        </p>
-                    </footer>
+                </dialog>
+                <div id="sequenceController" class="sequenceController">
+                    <button id="prevSequence" class="prevButton">Prev</button>
+                    <div class="sequenceNumberBox">
+                        <label id="sequenceNumberLabel" class="sequenceNumberLabel" for="sequenceStepper">0</label>
+                        <input type="range" id="sequenceStepper" class="sequenceStepper" min="0" max="1" value="0">
+                    </div>
+                    <button id="nextSequence" class="nextButton">Next</button>
                 </div>
-            </dialog>
-            <div id="sequenceController" class="sequenceController">
-                <button id="prevSequence" class="prevButton">Prev</button>
-                <div class="sequenceNumberBox">
-                    <label id="sequenceNumberLabel" class="sequenceNumberLabel" for="sequenceStepper">0</label>
-                    <input type="range"
-                           id="sequenceStepper"
-                           class="sequenceStepper"
-                           min="0" max="1" value="0">
+                <div class="editDialogBox">
+                    <button id="openDialog" class="openDialog" title="Edit Diagram">🛠️</button>
                 </div>
-                <button id="nextSequence" class="nextButton">Next</button>
             </div>
-            <div class="editDialogBox">
-                <button id="openDialog" class="openDialog" title="Edit Diagram">🛠️</button>
-            </div>
-        </div>
-    </template>
-</x-mermaid-controller>
-<div id="graphDiv"></div>
-<script type="module" src="index.ts"></script>
+        </template>
+    </x-mermaid-controller>
+    <div id="graphDiv"></div>
+    <script type="module" src="index.ts"></script>
 </body>
+
 </html>
