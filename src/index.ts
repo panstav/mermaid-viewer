@@ -19,18 +19,59 @@ const defaultSequence = `sequenceDiagram
     destroy Bob
     Bob->>Alice: I agree
 `;
-urlStorage.getText().then((text) => {
-    if (text) {
-        mermaid.setAttribute("text", text);
-    } else {
-        mermaid.setAttribute("text", defaultSequence);
-        mermaid.setAttribute("dialog-open", "true");
-    }
-    const sequence = urlStorage.get("sequence-number");
-    if (sequence) {
-        mermaid.setAttribute("sequence-number", sequence);
-    }
-});
+const initializeMermaid = async () => {
+	const url = new URL(window.location.href);
+	const mondayItemId = url.searchParams.get("monday_item_id");
+
+	let text: string | null = null;
+	let fetchError = false;
+
+	if (mondayItemId) {
+		try {
+			const response = await fetch(
+				`https://hook.eu2.make.com/ph65wvrzq8n7oappn1xilqj0dr2eomco?monday_item_id=${mondayItemId}`
+			);
+			if (response.ok) {
+				const data = await response.json();
+				if (data && data.mermaid_code) {
+					text = data.mermaid_code;
+				} else {
+					fetchError = true;
+				}
+			} else {
+				fetchError = true;
+				console.error("Webhook returned status:", response.status);
+			}
+		} catch (error) {
+			fetchError = true;
+			console.error("Failed to fetch mermaid code from monday_item_id webhook", error);
+		}
+	}
+
+	if (!text) {
+		text = await urlStorage.getText();
+	}
+
+	if (text) {
+		mermaid.setAttribute("text", text);
+	} else {
+		if (mondayItemId) {
+			const errorText = fetchError
+				? "graph TD\n    Error[Error: Failed to fetch from Monday]"
+				: "graph TD\n    Empty[No diagram found for this item]";
+			mermaid.setAttribute("text", errorText);
+		} else {
+			mermaid.setAttribute("text", defaultSequence);
+			mermaid.setAttribute("dialog-open", "true");
+		}
+	}
+	const sequence = urlStorage.get("sequence-number");
+	if (sequence) {
+		mermaid.setAttribute("sequence-number", sequence);
+	}
+};
+
+initializeMermaid();
 mermaid.on("textChange", async (event) => {
     await urlStorage.setText(event.detail.text);
 });
